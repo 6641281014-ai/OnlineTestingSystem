@@ -151,18 +151,30 @@ export default function StudentCoursesPage() {
 
   return (
     <div className="space-y-6">
+      {/* Breadcrumb Navigation */}
+      <nav className="flex items-center gap-2 text-xs font-medium text-slate-500">
+        <Link href="/student/dashboard" className="hover:text-emerald-600 transition">
+          แดชบอร์ด
+        </Link>
+        <span>/</span>
+        <span className="text-slate-900 font-semibold">รายวิชาและการลงทะเบียน</span>
+      </nav>
+
       {/* Header */}
-      <div>
-        <div className="flex items-center gap-2 text-emerald-600 font-semibold text-sm mb-1">
-          <GraduationCap className="w-4 h-4" /> ระบบรายวิชาเรียน (Course System)
-        </div>
+      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
-              รายวิชาและการลงทะเบียน
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-extrabold px-2.5 py-0.5 rounded-lg bg-emerald-50 text-emerald-700 font-mono">
+                My Enrolled Courses
+              </span>
+              <span className="text-xs text-slate-400">ระบบลงทะเบียนและเข้าสู่ห้องเรียน</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              รายวิชาและการลงทะเบียนเรียน
             </h1>
-            <p className="text-slate-500 text-sm mt-1">
-              ดูรายวิชาที่ลงทะเบียนแล้ว และค้นหารายวิชาที่เปิดรับเพื่อลงทะเบียนเรียนด้วยตนเอง
+            <p className="text-slate-500 text-xs sm:text-sm">
+              ดูรายวิชาที่ลงทะเบียนแล้ว เข้าทำแบบทดสอบประจำวิชา และค้นหารายวิชาที่เปิดรับสมัคร
             </p>
           </div>
           <button
@@ -170,7 +182,7 @@ export default function StudentCoursesPage() {
               setActiveTab("CATALOG");
               setSearch("");
             }}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs shadow-md shadow-emerald-600/20 transition"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 transition shrink-0"
           >
             <Search className="w-4 h-4" /> ค้นหารายวิชาเพื่อลงทะเบียน
           </button>

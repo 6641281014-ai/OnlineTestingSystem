@@ -56,48 +56,119 @@ export default async function StudentDashboardPage() {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
-      <div>
-        <div className="flex items-center gap-2 text-emerald-600 font-semibold text-sm mb-1">
-          <Award className="w-4 h-4" /> แผงควบคุมนักศึกษา
+      {/* Header Banner */}
+      <div className="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+        <div className="absolute right-0 top-0 translate-x-10 -translate-y-10 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold border border-emerald-500/30">
+              <Award className="w-3.5 h-3.5" />
+              <span>พื้นที่การเรียนรู้และการสอบ (Student Academic Workspace)</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
+              สวัสดี, {currentUser.name}
+            </h1>
+            <p className="text-slate-300 text-xs sm:text-sm max-w-2xl leading-relaxed">
+              รหัสนักศึกษา: <span className="font-mono font-bold text-white bg-white/10 px-2 py-0.5 rounded-lg">{currentUser.studentOrTeacherId || "-"}</span> • ติดตามรายวิชา แบบทดสอบที่เปิดสอบ และผลสัมฤทธิ์ทางการเรียน
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3 shrink-0">
+            <Link
+              href="/student/exams"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm shadow-lg shadow-emerald-600/30 transition transform hover:-translate-y-0.5"
+            >
+              <Clock className="w-4 h-4" />
+              <span>ดูแบบทดสอบที่เปิดสอบ</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
-          สวัสดี, {currentUser.name}
-        </h1>
-        <p className="text-slate-500 text-sm mt-1">
-          รหัสนักศึกษา: <span className="font-mono font-medium text-slate-700">{currentUser.studentOrTeacherId || "-"}</span> | ติดตามแบบทดสอบและผลสัมฤทธิ์ทางการเรียน
-        </p>
       </div>
 
-      {/* Overview Cards */}
+      {/* 3 Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-slate-500">รายวิชาที่ลงทะเบียน</p>
-            <p className="text-3xl font-bold text-slate-900 mt-2">{enrollments.length}</p>
+        <Link
+          href="/student/courses"
+          className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm hover:border-blue-400 hover:shadow-lg transition-all group flex flex-col justify-between relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -z-0 opacity-60 group-hover:scale-110 transition-transform" />
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-sm font-bold text-slate-700 group-hover:text-blue-600 transition-colors">
+                รายวิชาที่ลงทะเบียน
+              </span>
+              <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-sm">
+                <BookOpen className="w-6 h-6" />
+              </div>
+            </div>
+            <div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-4xl font-extrabold text-slate-900 tracking-tight">
+                  {enrollments.length}
+                </span>
+                <span className="text-sm font-semibold text-slate-500">รายวิชา</span>
+              </div>
+            </div>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-            <BookOpen className="w-6 h-6" />
+          <div className="relative z-10 mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-600">
+            <span>ดูรายวิชาทั้งหมด</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </div>
-        </div>
+        </Link>
 
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-slate-500">แบบทดสอบที่เปิดสอบ</p>
-            <p className="text-3xl font-bold text-slate-900 mt-2">{allAvailableExams.length}</p>
+        <Link
+          href="/student/exams"
+          className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm hover:border-amber-400 hover:shadow-lg transition-all group flex flex-col justify-between relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 w-32 h-32 bg-amber-50 rounded-bl-full -z-0 opacity-60 group-hover:scale-110 transition-transform" />
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-sm font-bold text-slate-700 group-hover:text-amber-600 transition-colors">
+                แบบทดสอบที่เปิดสอบ
+              </span>
+              <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-sm">
+                <Clock className="w-6 h-6" />
+              </div>
+            </div>
+            <div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-4xl font-extrabold text-slate-900 tracking-tight">
+                  {allAvailableExams.length}
+                </span>
+                <span className="text-sm font-semibold text-slate-500">ชุดแบบทดสอบ</span>
+              </div>
+            </div>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-            <Clock className="w-6 h-6" />
+          <div className="relative z-10 mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-amber-600">
+            <span>เข้าสู่ห้องสอบ</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </div>
-        </div>
+        </Link>
 
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-slate-500">แบบทดสอบที่ทำแล้ว</p>
-            <p className="text-3xl font-bold text-slate-900 mt-2">{attempts.length}</p>
+        <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm flex flex-col justify-between relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-bl-full -z-0 opacity-60" />
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-sm font-bold text-slate-700">
+                แบบทดสอบที่ทำแล้ว
+              </span>
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 shadow-sm">
+                <CheckCircle2 className="w-6 h-6" />
+              </div>
+            </div>
+            <div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-4xl font-extrabold text-slate-900 tracking-tight">
+                  {attempts.length}
+                </span>
+                <span className="text-sm font-semibold text-slate-500">ครั้งที่ส่งสอบ</span>
+              </div>
+            </div>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-            <CheckCircle2 className="w-6 h-6" />
+          <div className="relative z-10 mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-600">
+            <span>ประวัติการสอบที่บันทึกแล้ว</span>
+            <CheckCircle2 className="w-4 h-4" />
           </div>
         </div>
       </div>
