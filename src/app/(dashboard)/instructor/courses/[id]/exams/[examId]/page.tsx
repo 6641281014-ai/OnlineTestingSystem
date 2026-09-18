@@ -13,6 +13,7 @@ import {
   Loader2,
   HelpCircle,
   Edit2,
+  BarChart3,
 } from "lucide-react";
 import { DifficultyBadge, QuestionTypeBadge } from "@/components/ui/Badge";
 import { Alert } from "@/components/ui/Alert";
@@ -144,45 +145,73 @@ export default function ExamBuilderPage({
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <Link
-          href={`/instructor/courses/${params.id}/assessments`}
-          className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-indigo-600 font-medium mb-3 transition"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" /> กลับไปยังชุดข้อสอบและแบบทดสอบ
+      {/* Breadcrumb Navigation */}
+      <nav className="flex items-center gap-2 text-xs font-medium text-slate-500">
+        <Link href="/instructor/dashboard" className="hover:text-indigo-600 transition">
+          แดชบอร์ด
         </Link>
+        <span>/</span>
+        <Link href="/instructor/courses" className="hover:text-indigo-600 transition">
+          รายวิชาที่รับผิดชอบ
+        </Link>
+        <span>/</span>
+        <Link href={`/instructor/courses/${params.id}`} className="hover:text-indigo-600 transition">
+          {exam.course.code}
+        </Link>
+        <span>/</span>
+        <Link href={`/instructor/courses/${params.id}/assessments`} className="hover:text-indigo-600 transition">
+          ชุดข้อสอบและแบบทดสอบ
+        </Link>
+        <span>/</span>
+        <span className="text-slate-900 font-semibold truncate max-w-xs">
+          {exam.title}
+        </span>
+      </nav>
+
+      {/* Header */}
+      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-xs font-bold px-2.5 py-0.5 rounded-lg bg-indigo-50 text-indigo-700 font-mono">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-extrabold px-2.5 py-0.5 rounded-lg bg-indigo-50 text-indigo-700 font-mono">
                 {exam.course.code}
               </span>
-              <span className="text-xs text-slate-500">{exam.examType}</span>
+              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-lg bg-slate-100 text-slate-600">
+                {exam.examType}
+              </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               {exam.title}
             </h1>
-            <p className="text-slate-500 text-sm mt-1 max-w-3xl">
+            <p className="text-slate-500 text-xs sm:text-sm max-w-3xl">
               {exam.description || "ไม่มีคำชี้แจง"}
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+            <Link
+              href={`/instructor/courses/${params.id}/exams/${exam.id}/results`}
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs shadow-sm transition"
+              title="ดูคะแนนและรายชื่อนักศึกษาที่ส่งข้อสอบ"
+            >
+              <BarChart3 className="w-4 h-4 text-indigo-600" />
+              <span>ดูผลการสอบ</span>
+            </Link>
+
             {/* Main Publish Action Button */}
             {exam.isPublished ? (
               <button
                 onClick={handleTogglePublish}
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-bold text-xs bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 shadow-sm transition"
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl font-bold text-xs bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 shadow-sm transition"
                 title="คลิกเพื่อปิดการสอบ (นักศึกษาจะไม่เห็นแบบทดสอบนี้)"
               >
                 <XCircle className="w-4 h-4 text-rose-600" />
-                🔴 ปิดการสอบ (Unpublish)
+                🔴 ปิดการสอบ
               </button>
             ) : (
               <button
                 onClick={handleTogglePublish}
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl font-bold text-xs bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-600/25 transition"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-2xl font-bold text-xs bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-600/25 transition"
                 title="คลิกเพื่อเปิดให้นักศึกษาเริ่มทำแบบทดสอบได้"
               >
                 <CheckCircle2 className="w-4 h-4 text-white" />
@@ -192,7 +221,7 @@ export default function ExamBuilderPage({
 
             <Link
               href={`/instructor/courses/${params.id}/exams/${exam.id}/edit`}
-              className="p-2.5 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 transition"
+              className="p-2.5 rounded-2xl border border-slate-200 text-slate-700 hover:bg-slate-100 transition shadow-sm"
               title="แก้ไขการตั้งค่า"
             >
               <Edit2 className="w-4 h-4" />

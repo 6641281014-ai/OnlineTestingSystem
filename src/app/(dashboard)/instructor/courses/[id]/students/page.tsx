@@ -135,29 +135,70 @@ export default function CourseStudentsPage({
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <Link
-          href={`/instructor/courses/${params.id}`}
-          className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-indigo-600 font-medium mb-3 transition"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" /> กลับไปยังภาพรวมรายวิชา
+      {/* Breadcrumb Navigation */}
+      <nav className="flex items-center gap-2 text-xs font-medium text-slate-500">
+        <Link href="/instructor/dashboard" className="hover:text-indigo-600 transition">
+          แดชบอร์ด
         </Link>
+        <span>/</span>
+        <Link href="/instructor/courses" className="hover:text-indigo-600 transition">
+          รายวิชาที่รับผิดชอบ
+        </Link>
+        <span>/</span>
+        <Link href={`/instructor/courses/${params.id}`} className="hover:text-indigo-600 transition">
+          ภาพรวมรายวิชา
+        </Link>
+        <span>/</span>
+        <span className="text-slate-900 font-semibold">นักศึกษาในรายวิชา</span>
+      </nav>
+
+      {/* Header */}
+      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
-              จัดการนักศึกษาในรายวิชา
-            </h1>
-            <p className="text-slate-500 text-sm mt-1">
-              ลงทะเบียนและจัดการรายชื่อนักศึกษาที่เข้าเรียนในวิชานี้
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                <Users className="w-4 h-4" />
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                ทะเบียนนักศึกษาในรายวิชา
+              </h1>
+            </div>
+            <p className="text-slate-500 text-xs sm:text-sm">
+              จัดการรายชื่อ ตรวจสอบการลงทะเบียน และติดตามสถานะผู้เรียนในชั้นเรียน
             </p>
           </div>
-          <button
-            onClick={handleOpenAddModal}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md shadow-indigo-600/20 transition"
-          >
-            <UserPlus className="w-4 h-4" /> เพิ่มนักศึกษาเข้ารายวิชา
-          </button>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleOpenAddModal}
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/20 transition"
+            >
+              <UserPlus className="w-4 h-4" /> เพิ่มนักศึกษาเข้ารายวิชา
+            </button>
+          </div>
+        </div>
+
+        {/* Roster Stats Bar */}
+        <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-slate-100">
+          <div>
+            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-0.5">
+              นักศึกษาที่ลงทะเบียนแล้ว
+            </span>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-2xl font-black text-slate-900">{enrollments.length}</span>
+              <span className="text-xs text-slate-500 font-medium">คน</span>
+            </div>
+          </div>
+          <div className="border-l border-slate-100 pl-4">
+            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-0.5">
+              นักศึกษาในระบบที่ยังไม่ได้ลงทะเบียน
+            </span>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-2xl font-black text-indigo-600">{availableStudents.length}</span>
+              <span className="text-xs text-slate-500 font-medium">คน พร้อมลงทะเบียน</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -177,8 +218,8 @@ export default function CourseStudentsPage({
             className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
-        <div className="text-xs text-slate-500 font-semibold px-2">
-          ลงทะเบียนแล้ว {enrollments.length} คน
+        <div className="text-xs text-slate-500 font-semibold px-2 shrink-0">
+          แสดง {filteredEnrollments.length} จาก {enrollments.length} คน
         </div>
       </div>
 
@@ -227,8 +268,15 @@ export default function CourseStudentsPage({
                     <td className="px-6 py-4 font-mono font-bold text-indigo-600 text-xs">
                       {item.student.studentOrTeacherId || "-"}
                     </td>
-                    <td className="px-6 py-4 font-medium text-slate-900">{item.student.name}</td>
-                    <td className="px-6 py-4 text-xs">{item.student.email}</td>
+                    <td className="px-6 py-4 font-medium text-slate-900">
+                      <div className="flex items-center gap-3">
+                        <div className="w-7 h-7 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-xs font-bold shrink-0">
+                          {item.student.name.charAt(0)}
+                        </div>
+                        <span>{item.student.name}</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-xs text-slate-500">{item.student.email}</td>
                     <td className="px-6 py-4 text-xs text-slate-500">
                       {new Date(item.enrolledAt).toLocaleDateString("th-TH")}
                     </td>

@@ -292,22 +292,50 @@ export default function CourseAssessmentsPage({
 
   return (
     <div className="space-y-8">
-      {/* Header */}
-      <div>
-        <Link
-          href={`/instructor/courses/${params.id}`}
-          className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-indigo-600 font-medium mb-3 transition"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" /> กลับไปยังภาพรวมรายวิชา ({course?.code})
+      {/* Breadcrumb Navigation */}
+      <nav className="flex items-center gap-2 text-xs font-medium text-slate-500">
+        <Link href="/instructor/dashboard" className="hover:text-indigo-600 transition">
+          แดชบอร์ด
         </Link>
+        <span>/</span>
+        <Link href="/instructor/courses" className="hover:text-indigo-600 transition">
+          รายวิชาที่รับผิดชอบ
+        </Link>
+        <span>/</span>
+        <Link href={`/instructor/courses/${params.id}`} className="hover:text-indigo-600 transition">
+          {course?.code || "ภาพรวมรายวิชา"}
+        </Link>
+        <span>/</span>
+        <span className="text-slate-900 font-semibold">ชุดข้อสอบและแบบทดสอบ</span>
+      </nav>
+
+      {/* Header */}
+      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
-              ชุดข้อสอบและแบบทดสอบ (Question Sets & Exams)
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-extrabold px-2.5 py-0.5 rounded-lg bg-indigo-50 text-indigo-700 font-mono">
+                {course?.code}
+              </span>
+              <span className="text-xs text-slate-400">{course?.title}</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              ชุดข้อสอบและแบบทดสอบ (Assessments Center)
             </h1>
-            <p className="text-slate-500 text-sm mt-1">
-              ศูนย์รวมการจัดการชุดข้อสอบ คลังคำถาม การนำเข้าไฟล์ และการสร้างแบบทดสอบประเมินผล
+            <p className="text-slate-500 text-xs sm:text-sm">
+              ศูนย์รวมการจัดการคลังข้อสอบ การนำเข้าไฟล์คำถาม และการสร้างแบบทดสอบประเมินผลสัมฤทธิ์
             </p>
+          </div>
+        </div>
+
+        {/* Academic Workflow Flow Helper */}
+        <div className="mt-6 p-4 rounded-2xl bg-indigo-50/70 border border-indigo-100 flex items-center gap-3 text-xs text-indigo-900">
+          <Sparkles className="w-5 h-5 text-indigo-600 shrink-0" />
+          <div>
+            <span className="font-bold">ขั้นตอนการใช้งาน: </span>
+            <span>
+              1. จัดการข้อสอบใน <strong>ชุดข้อสอบ</strong> (นำเข้าไฟล์ Word / Excel หรือพิมพ์ทีละข้อ) ➔ 2. สุ่มสร้าง <strong>แบบทดสอบ</strong> จากชุดข้อสอบ ➔ 3. สั่ง <strong>เปิดสอบ</strong> ให้นักศึกษาเข้าทดสอบ
+            </span>
           </div>
         </div>
       </div>

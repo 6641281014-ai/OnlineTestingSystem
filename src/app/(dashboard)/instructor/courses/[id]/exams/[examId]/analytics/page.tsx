@@ -96,36 +96,64 @@ export default function TeacherExamAnalyticsPage({
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <Link
-          href={`/instructor/courses/${params.id}/exams/${params.examId}/results`}
-          className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-indigo-600 font-medium mb-3 transition"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" /> กลับไปยังรายชื่อผลการสอบ
+      {/* Breadcrumb Navigation */}
+      <nav className="flex items-center gap-2 text-xs font-medium text-slate-500">
+        <Link href="/instructor/dashboard" className="hover:text-indigo-600 transition">
+          แดชบอร์ด
         </Link>
+        <span>/</span>
+        <Link href="/instructor/courses" className="hover:text-indigo-600 transition">
+          รายวิชาที่รับผิดชอบ
+        </Link>
+        <span>/</span>
+        <Link href={`/instructor/courses/${params.id}`} className="hover:text-indigo-600 transition">
+          {exam.course.code}
+        </Link>
+        <span>/</span>
+        <Link href={`/instructor/courses/${params.id}/assessments`} className="hover:text-indigo-600 transition">
+          ชุดข้อสอบและแบบทดสอบ
+        </Link>
+        <span>/</span>
+        <Link href={`/instructor/courses/${params.id}/exams/${params.examId}/results`} className="hover:text-indigo-600 transition">
+          {exam.title}
+        </Link>
+        <span>/</span>
+        <span className="text-slate-900 font-semibold">วิเคราะห์ข้อสอบ (Analytics)</span>
+      </nav>
+
+      {/* Header */}
+      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs font-bold px-2.5 py-0.5 rounded-lg bg-indigo-50 text-indigo-700 font-mono">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-extrabold px-2.5 py-0.5 rounded-lg bg-indigo-50 text-indigo-700 font-mono">
                 {exam.course.code}
               </span>
-              <span className="text-xs text-slate-500 font-medium">{exam.examType}</span>
+              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-lg bg-slate-100 text-slate-600">
+                {exam.examType}
+              </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
-              สถิติและผลการวิเคราะห์ข้อสอบ (Analytics)
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              สถิติและผลการวิเคราะห์คุณภาพข้อสอบ (Item Analytics)
             </h1>
-            <p className="text-slate-500 text-xs mt-1">
-              {exam.title} • ค่าความยากง่าย (p), ค่าอำนาจจำแนก (r) และการกระจายตัวของคะแนน
+            <p className="text-slate-500 text-xs sm:text-sm">
+              {exam.title} • ค่าความยากง่าย (p), ค่าอำนาจจำแนก (r) และการกระจายตัวของคะแนนสอบ
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5 shrink-0">
+            <Link
+              href={`/instructor/courses/${params.id}/exams/${params.examId}/results`}
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs shadow-sm transition"
+            >
+              <Users className="w-4 h-4 text-indigo-600" />
+              <span>ดูรายชื่อคะแนนนักศึกษา</span>
+            </Link>
             <Link
               href={`/instructor/courses/${params.id}/exams/${params.examId}`}
-              className="px-4 py-2 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 font-semibold text-xs transition"
+              className="px-4 py-2.5 rounded-2xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs transition"
             >
-              แก้ไขข้อสอบในชุด
+              จัดการข้อสอบในชุด
             </Link>
           </div>
         </div>

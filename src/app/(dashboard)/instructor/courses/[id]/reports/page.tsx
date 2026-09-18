@@ -121,48 +121,61 @@ export default function CourseReportsPage({
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <Link
-          href={`/instructor/courses/${params.id}`}
-          className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-indigo-600 font-medium mb-3 transition"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" /> กลับไปยังรายวิชา
+      {/* Breadcrumb Navigation */}
+      <nav className="flex items-center gap-2 text-xs font-medium text-slate-500">
+        <Link href="/instructor/dashboard" className="hover:text-indigo-600 transition">
+          แดชบอร์ด
         </Link>
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs font-bold px-2.5 py-0.5 rounded-lg bg-indigo-50 text-indigo-700 font-mono">
+        <span>/</span>
+        <Link href="/instructor/courses" className="hover:text-indigo-600 transition">
+          รายวิชาที่รับผิดชอบ
+        </Link>
+        <span>/</span>
+        <Link href={`/instructor/courses/${params.id}`} className="hover:text-indigo-600 transition">
+          {course.code}
+        </Link>
+        <span>/</span>
+        <span className="text-slate-900 font-semibold">ข้อมูลงานวิจัยในชั้นเรียน (Research Reports)</span>
+      </nav>
+
+      {/* Header */}
+      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-extrabold px-2.5 py-0.5 rounded-lg bg-indigo-50 text-indigo-700 font-mono">
                 {course.code}
               </span>
-              <span className="text-xs text-slate-500 font-medium">Research Reporting & Data Management</span>
+              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-lg bg-teal-50 text-teal-700 border border-teal-100">
+                Classroom Action Research
+              </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
-              รายงานข้อมูลงานวิจัยและผลสัมฤทธิ์ (Research Reports)
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              รายงานข้อมูลงานวิจัยในชั้นเรียนและผลสัมฤทธิ์
             </h1>
-            <p className="text-slate-500 text-xs mt-1">
-              ตารางข้อมูลงานวิจัยรายบุคคล, สถิติเปรียบเทียบ Pre/Post และการส่งออกข้อมูลสำหรับ SPSS / Excel
+            <p className="text-slate-500 text-xs sm:text-sm">
+              การทดสอบสมมติฐานเปรียบเทียบก่อนเรียน-หลังเรียน (t-test), ประสิทธิภาพตามเกณฑ์ (E1/E2), และพัฒนาการ (Normalized Gain)
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
             <Link
               href={`/instructor/courses/${params.id}/analytics`}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs transition"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition"
             >
-              <BarChart3 className="w-3.5 h-3.5" /> Analytics Dashboard
+              <BarChart3 className="w-4 h-4 text-purple-600" /> แดชบอร์ดสถิติ
             </Link>
             <button
               onClick={() => handleExport("csv")}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 transition"
             >
-              <Download className="w-3.5 h-3.5" /> ส่งออก CSV
+              <Download className="w-4 h-4" /> ส่งออก CSV
             </button>
             <button
               onClick={() => handleExport("excel")}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs shadow-sm transition"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs shadow-md shadow-teal-700/20 transition"
             >
-              <FileSpreadsheet className="w-3.5 h-3.5" /> ส่งออก Excel (.xlsx)
+              <FileSpreadsheet className="w-4 h-4" /> ส่งออก Excel (.xlsx)
             </button>
           </div>
         </div>
