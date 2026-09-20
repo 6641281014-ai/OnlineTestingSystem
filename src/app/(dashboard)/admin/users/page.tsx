@@ -23,6 +23,7 @@ import {
   ShieldAlert,
   ArrowUpDown,
   Lock,
+  ChevronRight,
 } from "lucide-react";
 import Modal from "@/components/ui/Modal";
 import { Alert } from "@/components/ui/Alert";
@@ -411,95 +412,110 @@ export default function AdminUsersPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 text-indigo-600 font-semibold text-sm mb-1">
-            <Shield className="w-4 h-4" /> ระบบจัดการข้อมูลผู้ใช้งาน (Admin Management)
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
-            จัดการผู้ใช้งานในระบบ
-          </h1>
-          <p className="text-slate-500 text-sm mt-0.5">
-            ค้นหา ตรวจสอบ แก้ไขบทบาท และจัดการสถานะบัญชีผู้ใช้งาน
-          </p>
-        </div>
+      {/* 1. Academic Breadcrumb */}
+      <nav className="flex items-center gap-2 text-xs text-slate-400 font-medium">
+        <span className="flex items-center gap-1 text-slate-500">
+          <Shield className="w-3.5 h-3.5 text-indigo-600" /> ศูนย์บริหารจัดการระบบ
+        </span>
+        <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
+        <span className="text-slate-700 font-semibold">การบริหารจัดการบัญชีและสิทธิ์การใช้งาน</span>
+      </nav>
 
-        <button
-          onClick={() => {
-            setModalMessage(null);
-            setActionLoading(false);
-            setIsCreateOpen(true);
-          }}
-          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold shadow-sm transition"
-        >
-          <Plus className="w-4 h-4" />
-          เพิ่มผู้ใช้งาน
-        </button>
+      {/* 2. Executive IAM Header Banner */}
+      <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-6 sm:p-8 relative overflow-hidden">
+        <div className="absolute -right-16 -top-16 w-64 h-64 bg-indigo-50/70 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-800 text-xs font-semibold">
+              <Users className="w-3.5 h-3.5 text-indigo-600" />
+              <span>ระบบบริหารจัดการบัญชีและสิทธิ์การใช้งาน (Institutional Identity & Access Management - IAM)</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              จัดการผู้ใช้งานในระบบ
+            </h1>
+            <p className="text-slate-500 text-xs sm:text-sm max-w-2xl leading-relaxed">
+              ค้นหา ตรวจสอบ ปรับเปลี่ยนบทบาททางวิชาการ และกำกับดูแลสถานะบัญชีผู้ใช้งานระดับสถาบัน
+            </p>
+          </div>
+
+          <div>
+            <button
+              onClick={() => {
+                setModalMessage(null);
+                setActionLoading(false);
+                setIsCreateOpen(true);
+              }}
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md shadow-indigo-600/20 transition"
+            >
+              <Plus className="w-4 h-4" />
+              เพิ่มผู้ใช้งานใหม่
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Summary Stat Cards */}
+      {/* 3. Summary Stat Cards */}
       {summary && (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-500">ผู้ใช้ทั้งหมด</span>
+              <span className="text-xs font-semibold text-slate-400">ผู้ใช้ทั้งหมด</span>
               <Users className="w-4 h-4 text-purple-600" />
             </div>
-            <div className="text-2xl font-bold text-slate-900 mt-2">{summary.totalUsers}</div>
+            <div className="text-2xl font-black text-slate-900 mt-2 font-mono">{summary.totalUsers}</div>
           </div>
 
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-500">นักศึกษา</span>
+              <span className="text-xs font-semibold text-slate-400">นักศึกษา (STUDENT)</span>
               <GraduationCap className="w-4 h-4 text-emerald-600" />
             </div>
-            <div className="text-2xl font-bold text-emerald-600 mt-2">{summary.studentCount}</div>
+            <div className="text-2xl font-black text-emerald-600 mt-2 font-mono">{summary.studentCount}</div>
           </div>
 
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-500">อาจารย์</span>
+              <span className="text-xs font-semibold text-slate-400">อาจารย์ (TEACHER)</span>
               <BookOpen className="w-4 h-4 text-blue-600" />
             </div>
-            <div className="text-2xl font-bold text-blue-600 mt-2">{summary.teacherCount}</div>
+            <div className="text-2xl font-black text-blue-600 mt-2 font-mono">{summary.teacherCount}</div>
           </div>
 
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-500">ผู้ดูแลระบบ</span>
+              <span className="text-xs font-semibold text-slate-400">ผู้ดูแล (ADMIN)</span>
               <Shield className="w-4 h-4 text-purple-600" />
             </div>
-            <div className="text-2xl font-bold text-purple-600 mt-2">{summary.adminCount}</div>
+            <div className="text-2xl font-black text-purple-600 mt-2 font-mono">{summary.adminCount}</div>
           </div>
 
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-500">เปิดใช้งาน</span>
+              <span className="text-xs font-semibold text-slate-400">เปิดใช้งานปกติ</span>
               <UserCheck className="w-4 h-4 text-emerald-600" />
             </div>
-            <div className="text-2xl font-bold text-slate-900 mt-2">{summary.activeCount}</div>
+            <div className="text-2xl font-black text-slate-900 mt-2 font-mono">{summary.activeCount}</div>
           </div>
 
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-500">ระงับการใช้งาน</span>
+              <span className="text-xs font-semibold text-slate-400">ระงับการใช้งาน</span>
               <UserX className="w-4 h-4 text-rose-600" />
             </div>
-            <div className="text-2xl font-bold text-rose-600 mt-2">{summary.inactiveCount}</div>
+            <div className="text-2xl font-black text-rose-600 mt-2 font-mono">{summary.inactiveCount}</div>
           </div>
         </div>
       )}
 
-      {/* Filter & Search Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3">
-        <div className="relative w-full md:w-80">
+      {/* 4. Filter & Search Bar */}
+      <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3">
+        <div className="relative w-full md:w-96">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="ค้นหาชื่อ, อีเมล, รหัสประจำตัว..."
+            placeholder="ค้นหาชื่อ-สกุล, อีเมล, หรือรหัสประจำตัว..."
             className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50 text-slate-900"
           />
         </div>
@@ -512,11 +528,11 @@ export default function AdminUsersPage() {
             <select
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value)}
-              className="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
-              <option value="ALL">ทั้งหมด</option>
-              <option value="ADMIN">ADMIN (ผู้ดูแล)</option>
-              <option value="TEACHER">TEACHER (อาจารย์)</option>
+              <option value="ALL">ทั้งหมดทุกบทบาท</option>
+              <option value="ADMIN">ADMIN (ผู้ดูแลระบบ)</option>
+              <option value="TEACHER">TEACHER (อาจารย์ผู้สอน)</option>
               <option value="STUDENT">STUDENT (นักศึกษา)</option>
             </select>
           </div>
@@ -527,9 +543,9 @@ export default function AdminUsersPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
-              <option value="ALL">ทั้งหมด</option>
+              <option value="ALL">ทั้งหมดทุกสถานะ</option>
               <option value="ACTIVE">ACTIVE (เปิดใช้งาน)</option>
               <option value="INACTIVE">INACTIVE (ถูกระงับ)</option>
             </select>
@@ -547,61 +563,79 @@ export default function AdminUsersPage() {
 
       {error && <Alert type="error" message={error} />}
 
-      {/* Users Table */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      {/* 5. Enterprise Users Table */}
+      <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden">
         {loading ? (
-          <div className="py-20 text-center">
+          <div className="py-24 text-center">
             <Loader2 className="w-8 h-8 animate-spin text-indigo-600 mx-auto mb-3" />
-            <p className="text-sm text-slate-500 font-medium">กำลังโหลดข้อมูลผู้ใช้งาน...</p>
+            <p className="text-sm text-slate-500 font-medium">กำลังโหลดข้อมูลผู้ใช้งานระบบ...</p>
           </div>
         ) : users.length === 0 ? (
-          <div className="py-16 text-center">
-            <Users className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+          <div className="py-20 text-center space-y-2">
+            <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-2">
+              <Users className="w-6 h-6" />
+            </div>
             <h3 className="text-base font-bold text-slate-800">ไม่พบข้อมูลผู้ใช้งาน</h3>
-            <p className="text-xs text-slate-500 mt-1">ลองเปลี่ยนคำค้นหาหรือตัวกรองบทบาท/สถานะ</p>
+            <p className="text-xs text-slate-500">ลองเปลี่ยนคำค้นหาหรือตัวกรองบทบาท/สถานะ</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm text-slate-600">
-              <thead className="bg-slate-50 text-xs uppercase font-semibold text-slate-500 border-b border-slate-200">
+              <thead className="bg-slate-50/75 text-xs uppercase font-semibold text-slate-500 border-b border-slate-200/80">
                 <tr>
-                  <th className="px-5 py-3.5">ชื่อ-นามสกุล</th>
-                  <th className="px-5 py-3.5">อีเมล</th>
-                  <th className="px-5 py-3.5">รหัสประจำตัว</th>
-                  <th className="px-5 py-3.5">บทบาท (Role)</th>
-                  <th className="px-5 py-3.5">สถานะ</th>
-                  <th className="px-5 py-3.5">วันที่สมัคร</th>
-                  <th className="px-5 py-3.5 text-center">การดำเนินการ</th>
+                  <th className="px-6 py-4">ชื่อ-นามสกุล</th>
+                  <th className="px-6 py-4">อีเมล</th>
+                  <th className="px-6 py-4">รหัสประจำตัว</th>
+                  <th className="px-6 py-4">บทบาท (Role)</th>
+                  <th className="px-6 py-4">สถานะบัญชี</th>
+                  <th className="px-6 py-4">วันที่สมัคร</th>
+                  <th className="px-6 py-4 text-center">การดำเนินการ</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {users.map((u) => {
                   const isSelf = u.id === currentUserId;
+                  const initial = u.name ? u.name.trim().charAt(0) : "U";
 
                   return (
                     <tr key={u.id} className="hover:bg-slate-50/80 transition">
-                      <td className="px-5 py-3.5">
-                        <div className="font-semibold text-slate-900 flex items-center gap-1.5">
-                          {u.name}
-                          {isSelf && (
-                            <span className="text-[10px] bg-purple-100 text-purple-700 px-1.5 py-0.2 rounded font-normal">
-                              บัญชีคุณ
-                            </span>
-                          )}
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className={`w-8 h-8 rounded-xl font-bold text-xs flex items-center justify-center flex-shrink-0 ${
+                              u.role === "ADMIN"
+                                ? "bg-purple-100 text-purple-700"
+                                : u.role === "TEACHER"
+                                ? "bg-blue-100 text-blue-700"
+                                : "bg-emerald-100 text-emerald-700"
+                            }`}
+                          >
+                            {initial}
+                          </div>
+                          <div>
+                            <div className="font-semibold text-slate-900 flex items-center gap-1.5">
+                              {u.name}
+                              {isSelf && (
+                                <span className="text-[10px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-bold">
+                                  บัญชีคุณ
+                                </span>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       </td>
-                      <td className="px-5 py-3.5 text-slate-600 text-xs">{u.email}</td>
-                      <td className="px-5 py-3.5 font-mono text-xs text-slate-600">
+                      <td className="px-6 py-4 text-slate-600 text-xs">{u.email}</td>
+                      <td className="px-6 py-4 font-mono text-xs text-slate-700">
                         {u.studentOrTeacherId || "-"}
                       </td>
-                      <td className="px-5 py-3.5">
+                      <td className="px-6 py-4">
                         <span
-                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
+                          className={`inline-flex items-center px-2.5 py-1 rounded-xl text-xs font-semibold ${
                             u.role === "ADMIN"
-                              ? "bg-purple-100 text-purple-700 border border-purple-200"
+                              ? "bg-purple-50 text-purple-700 border border-purple-200"
                               : u.role === "TEACHER"
-                              ? "bg-blue-100 text-blue-700 border border-blue-200"
-                              : "bg-emerald-100 text-emerald-700 border border-emerald-200"
+                              ? "bg-blue-50 text-blue-700 border border-blue-200"
+                              : "bg-emerald-50 text-emerald-700 border border-emerald-200"
                           }`}
                         >
                           {u.role === "ADMIN"
@@ -611,41 +645,36 @@ export default function AdminUsersPage() {
                             : "นักศึกษา (STUDENT)"}
                         </span>
                       </td>
-                      <td className="px-5 py-3.5">
+                      <td className="px-6 py-4">
                         <span
-                          className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full ${
+                          className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-xl ${
                             u.isActive
-                              ? "bg-emerald-50 text-emerald-700"
-                              : "bg-rose-50 text-rose-700"
+                              ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                              : "bg-rose-50 text-rose-700 border border-rose-100"
                           }`}
                         >
-                          {u.isActive ? (
-                            <>
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                              ใช้งานได้
-                            </>
-                          ) : (
-                            <>
-                              <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
-                              ระงับการใช้งาน
-                            </>
-                          )}
+                          <span
+                            className={`w-1.5 h-1.5 rounded-full ${
+                              u.isActive ? "bg-emerald-500" : "bg-rose-500"
+                            }`}
+                          />
+                          {u.isActive ? "ใช้งานได้ปกติ" : "ระงับการใช้งาน"}
                         </span>
                       </td>
-                      <td className="px-5 py-3.5 text-xs text-slate-500 whitespace-nowrap">
+                      <td className="px-6 py-4 text-xs text-slate-500 whitespace-nowrap">
                         {new Date(u.createdAt).toLocaleDateString("th-TH", {
                           year: "numeric",
                           month: "short",
                           day: "numeric",
                         })}
                       </td>
-                      <td className="px-5 py-3.5 text-center whitespace-nowrap">
-                        <div className="inline-flex items-center gap-1">
+                      <td className="px-6 py-4 text-center whitespace-nowrap">
+                        <div className="inline-flex items-center gap-1 bg-slate-50 p-1 rounded-xl border border-slate-100">
                           {/* View */}
                           <button
                             onClick={() => openViewModal(u)}
-                            title="ดูรายละเอียด"
-                            className="p-1.5 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition"
+                            title="ดูรายละเอียดข้อมูล"
+                            className="p-1.5 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-white transition"
                           >
                             <Eye className="w-4 h-4" />
                           </button>
@@ -653,8 +682,8 @@ export default function AdminUsersPage() {
                           {/* Edit */}
                           <button
                             onClick={() => openEditModal(u)}
-                            title="แก้ไขข้อมูล"
-                            className="p-1.5 rounded-lg text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 transition"
+                            title="แก้ไขข้อมูลผู้ใช้"
+                            className="p-1.5 rounded-lg text-slate-500 hover:text-indigo-600 hover:bg-white transition"
                           >
                             <Edit className="w-4 h-4" />
                           </button>
@@ -664,7 +693,7 @@ export default function AdminUsersPage() {
                             onClick={() => openRoleModal(u)}
                             disabled={isSelf}
                             title={isSelf ? "ไม่สามารถเปลี่ยนบทบาทบัญชีตนเองได้" : "เปลี่ยนบทบาท"}
-                            className="p-1.5 rounded-lg text-slate-500 hover:text-purple-600 hover:bg-purple-50 transition disabled:opacity-30 disabled:cursor-not-allowed"
+                            className="p-1.5 rounded-lg text-slate-500 hover:text-purple-600 hover:bg-white transition disabled:opacity-30 disabled:cursor-not-allowed"
                           >
                             <ArrowUpDown className="w-4 h-4" />
                           </button>
@@ -682,8 +711,8 @@ export default function AdminUsersPage() {
                             }
                             className={`p-1.5 rounded-lg transition disabled:opacity-30 disabled:cursor-not-allowed ${
                               u.isActive
-                                ? "text-slate-500 hover:text-rose-600 hover:bg-rose-50"
-                                : "text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50"
+                                ? "text-slate-500 hover:text-rose-600 hover:bg-white"
+                                : "text-emerald-600 hover:text-emerald-700 hover:bg-white"
                             }`}
                           >
                             <Power className="w-4 h-4" />
@@ -692,8 +721,8 @@ export default function AdminUsersPage() {
                           {/* Reset Password */}
                           <button
                             onClick={() => openResetPassModal(u)}
-                            title="รีเซ็ตรหัสผ่าน"
-                            className="p-1.5 rounded-lg text-slate-500 hover:text-amber-600 hover:bg-amber-50 transition"
+                            title="รีเซ็ตรหัสผ่านใหม่"
+                            className="p-1.5 rounded-lg text-slate-500 hover:text-amber-600 hover:bg-white transition"
                           >
                             <KeyRound className="w-4 h-4" />
                           </button>
@@ -707,6 +736,7 @@ export default function AdminUsersPage() {
           </div>
         )}
       </div>
+
 
       {/* ======================================================== */}
       {/* 1. CREATE USER MODAL */}
